@@ -14,7 +14,7 @@ class Plant(db.Model):
     uuid = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), nullable=False, unique=True)
     specie = db.Column(db.String(128), nullable=False)
-    acquired = db.Column(db.DateTime, nullable=True)
+    acquired = db.Column(db.String(128), nullable=True)
     location = db.Column(db.String(128), nullable=True)
 
     @staticmethod
@@ -36,12 +36,11 @@ class Plant(db.Model):
         props["acquired"] = {
                 "description": "Date of acquiral of the plant",
                 "type": "string",
-                #"pattern": "^[0-9]{4}-[01][0-9]-[0-3][0-9]T[0-9]{2}:[0-5][0-9]:[0-5][0-9]Z$"
-        }
+                }
         props["location"] = {
                 "description": "Placement of the plant",
                 "type": "string"
-        }
+                }
         return schema
 
 class Specie(db.Model):
@@ -82,19 +81,19 @@ class Specie(db.Model):
         props["water"] = {
                 "description" :"Watering information",
                 "type": "string"
-        }
+                }
         props["humidity"] = {
                 "description": "Description of the humidity in plant's location",
                 "type": "string"
-        }
+                }
         props["temperature"] = {
                 "description": "Temperature in the plant's location",
                 "type": "string"
-        }
+                }
         props["soil"] = {
                 "description": "Type of soil used",
                 "type": "string"
-        }
+                }
         return schema
 
 

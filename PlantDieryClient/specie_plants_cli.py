@@ -7,7 +7,7 @@ YELLOW_LINE = colored("-----------------------------", 'yellow')
 API_URL = "http://127.0.0.1:5000/api"
 
 class Specie():
-	def add_general_plant(self):
+	def add_specie(self):
 		print(YELLOW_LINE)
 		print(colored("  Add new specie", 'yellow'))
 		print(YELLOW_LINE)
@@ -39,7 +39,7 @@ class Specie():
 			print(colored("\n!!New specie added!!\n", 'green'))
 		return
 
-	def modify_general_plant(self):
+	def modify_specie(self):
 		print(YELLOW_LINE)
 		print("  Modify saved specie")
 		print(YELLOW_LINE)
@@ -76,7 +76,7 @@ class Specie():
 		return print(colored("\n!!General plant updated!!\n", 'green'))
 
 
-	def delete_general_plant(self):
+	def delete_specie(self):
 		print(YELLOW_LINE)
 		print("  Delete saved specie")
 		print(YELLOW_LINE)
@@ -91,7 +91,7 @@ class Specie():
 		print(colored("\n!!Plant {} delete success!!\n", 'green'))
 
 
-	def get_all_general_plants(self):
+	def get_all_species(self):
 		print(YELLOW_LINE)
 		print("  All saved species")
 		print(YELLOW_LINE)
@@ -107,7 +107,7 @@ class Specie():
 			print(GREEN_LINE + "\n")
 		return
 
-	def get_single_general_plant(self):
+	def get_single_specie(self):
 		print(YELLOW_LINE)
 		print("  specie's information")
 		print(YELLOW_LINE)
