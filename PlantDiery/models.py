@@ -54,9 +54,9 @@ class Specie(db.Model):
     soil:         String (optional)
     """
 
-    uuid = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    specie = db.Column(db.String(128), nullable=False, unique=True)
     instruction = db.Column(db.String(512), nullable=False)
-    specie = db.Column(db.String(128), nullable=False)
     water = db.Column(db.String(64), nullable=True)
     humidity = db.Column(db.String(64), nullable=True)
     temperature = db.Column(db.String(64), nullable=True)
@@ -67,15 +67,16 @@ class Specie(db.Model):
         """ Returns the schema for Specie"""
         schema = {
                 "type": "object",
-                "required": ["instruction", "specie"]
+                "required": ["specie", "instruction"]
                 }
         props = schema["properties"] = {}
-        props["instruction"] = {
-                "description": "Instructions how to take care of the plant",
-                "type": "string"
-                }
+
         props["specie"] = {
                 "description": "Specie of the plant",
+                "type": "string"
+                }
+        props["instruction"] = {
+                "description": "Instructions how to take care of the plant",
                 "type": "string"
                 }
         props["water"] = {

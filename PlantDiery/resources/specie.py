@@ -19,7 +19,7 @@ class SpecieItem(Resource):
         uuid used as identifier
         /api/species/<plant_id>/
         '''
-        saved_specie = Specie.query.filter_by(uuid=plant_id).first()
+        saved_specie = Specie.query.filter_by(id=plant_id).first()
         if saved_specie is None:
             return create_error_response(
                 title="Not found",
@@ -28,15 +28,15 @@ class SpecieItem(Resource):
             )
 
         body = PlantBuilder(
-            uuid=saved_specie.uuid,
+            id=saved_specie.id,
             instruction=saved_specie.instruction,
             specie=saved_specie.specie
         )
         body.add_control("self",
-            url_for("api.specie", plant_id=saved_specie.uuid))
+            url_for("api.specie", plant_id=saved_specie.id))
         body.add_control("profile", SPECIE_PROFILE)
-        body.add_control_delete_specie(plant_id=saved_specie.uuid)
-        body.add_control_modify_specie(plant_id=saved_specie.uuid)
+        body.add_control_delete_specie(plant_id=saved_specie.id)
+        body.add_control_modify_specie(plant_id=saved_specie.id)
         body.add_namespace("plandi", LINK_RELATIONS_URL)
 
         return Response(response=json.dumps(body), status=200, mimetype=MASON)
@@ -116,12 +116,11 @@ class SpecieCollection(Resource):
         body = PlantBuilder(items=[])
         for plant in gen_plants:
             plantItem = PlantBuilder(
-                uuid=plant.uuid,
                 instruction=plant.instruction,
                 specie=plant.specie
             )
             plantItem.add_control("self",
-                url_for("api.specie", plant_id=plant.uuid))
+                url_for("api.specieitem", plant_id=plant.id))
             plantItem.add_control("profile", SPECIE_PROFILE)
             body["items"].append(plantItem)
         body.add_namespace("plandi", LINK_RELATIONS_URL)
@@ -145,7 +144,6 @@ class SpecieCollection(Resource):
             )
 
         gen_plant = Specie(
-            uuid=request.json["uuid"],
             instruction=request.json["instruction"],
             specie=request.json["specie"]
         )
@@ -156,10 +154,9 @@ class SpecieCollection(Resource):
             return create_error_response(
                 409,
                 "Already exists",
-                "Plant with uuid {} already exists".format(request.json["uuid"])
+                "Plant with id {} already exists".format(gen_plant.id)
             )
 
         return Response(
             status=201,
-            mimetype=MASON,
-            headers={"Location": url_for("api.specie", plant_id=request.json["uuid"])})
+            mimetype=MASON)

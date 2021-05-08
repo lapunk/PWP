@@ -102,7 +102,6 @@ class Specie():
 			return print(colored("\nNO SPECIES SAVED\n", 'red'))
 		for item in body["items"]:
 			print(GREEN_LINE)
-			print("Id: " + str(item["id"]))
 			print("Specie : " + str(item["specie"]))
 			print(GREEN_LINE + "\n")
 		return

@@ -83,7 +83,7 @@ def diary_menu():
 
 def print_welcome():
     print("1. Plants")
-    print("2. General plants")
+    print("2. Species")
     print("3. Diary")
     print("4. Quit\n")
 
@@ -96,11 +96,11 @@ def print_plants_menu():
     print("6. Go back to main menu\n")
 
 def print_general_plants_menu():
-    print("1. Add general plant")
-    print("2. List all general plants")
-    print("3. Show general plant's detailed information")
-    print("4. Modify general plant information")
-    print("5. Delete existing general plant")
+    print("1. Add specie")
+    print("2. List all species")
+    print("3. Show specie's detailed information")
+    print("4. Modify specie's information")
+    print("5. Delete existing specie")
     print("6. Go back to main menu\n")
 
 def print_diary_menu():
