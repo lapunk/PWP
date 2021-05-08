@@ -49,15 +49,15 @@ def plantsgen_menu():
         giv_input = input("Choice: ")
         print("\n")
         if giv_input == "1":
-            genPlant.add_specie()
+            genPlant.add_general_plant()
         elif giv_input == "2":
-            genPlant.get_all_species()
+            genPlant.get_all_general_plants()
         elif giv_input == "3":
-            genPlant.get_single_specie()
+            genPlant.get_single_general_plant()
         elif giv_input == "4":
-            genPlant.modify_specie()
+            genPlant.modify_general_plant()
         elif giv_input == "5":
-            genPlant.delete_specie()
+            genPlant.delete_general_plant()
         elif giv_input == "6":
             break
         else:

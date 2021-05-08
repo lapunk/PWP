@@ -29,11 +29,8 @@ class PlantItem(Resource):
         body = PlantBuilder(
             uuid=saved_plant.uuid,
             name=saved_plant.name,
-            specie=saved_plant.specie,
-            acquired=saved_plant.acquired,
-            location=saved_plant.location
+            specie=saved_plant.specie
         )
-
         body.add_control("self",
             url_for("api.plantitem", name=saved_plant.name))
         body.add_control("profile", PLANT_ITEM_PROFILE)
@@ -77,8 +74,6 @@ class PlantItem(Resource):
         # Previous checks OK, update plant item
         saved_plant.name=request.json["name"]
         saved_plant.specie=request.json["specie"]
-        saved_plant.acquired=request.json["acquired"]
-        saved_plant.location=request.json["location"]
 
         db.session.commit()
 
@@ -122,9 +117,7 @@ class PlantCollection(Resource):
         for plant in plants:
             plantItem = PlantBuilder(
                 name=plant.name,
-                specie=plant.specie,
-                acquired=plant.acquired,
-                location=plant.location
+                specie=plant.specie
             )
             plantItem.add_control("self",
                 url_for("api.plantitem", name=plant.name))
@@ -155,9 +148,7 @@ class PlantCollection(Resource):
 
         plant = Plant(
             name=request.json["name"],
-            specie=request.json["specie"],
-            acquired=request.json["acquired"],
-            location=request.json["location"]
+            specie=request.json["specie"]
         )
         try:
             db.session.add(plant)
