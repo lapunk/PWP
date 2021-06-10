@@ -98,7 +98,7 @@ class SpecieItem(Resource):
         db.session.delete(saved_plant)
         db.session.commit()
 
-        return Response(status=204, mimetype=MASON)       
+        return Response(status=204, mimetype=MASON)
 
 class SpecieCollection(Resource):
     def get(self):
@@ -120,7 +120,7 @@ class SpecieCollection(Resource):
                 specie=plant.specie
             )
             plantItem.add_control("self",
-                url_for("api.specieitem", plant_id=plant.id))
+                url_for("api.specieitem", specie_name=plant.specie))
             plantItem.add_control("profile", SPECIE_PROFILE)
             body["items"].append(plantItem)
         body.add_namespace("plandi", LINK_RELATIONS_URL)

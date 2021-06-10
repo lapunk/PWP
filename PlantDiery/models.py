@@ -13,11 +13,11 @@ class Plant(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), nullable=False, unique=True)
-    specie = db.Column(db.String(128), nullable=False)
+    #specie = db.Column(db.String(128), nullable=False)
     acquired = db.Column(db.String(128), nullable=True)
     location = db.Column(db.String(128), nullable=True)
+    specie_name = db.Column(db.Integer, db.ForeignKey("specie.specie"))
 
-    specie_id = db.Column(db.Integer, db.ForeignKey("specie_id"))
     specie = db.relationship("Specie", back_populates="plant")
 
     @staticmethod

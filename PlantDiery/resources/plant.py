@@ -5,7 +5,7 @@ from jsonschema import validate, ValidationError
 from .. import db
 from .. import api
 from ..utils import PlantBuilder, create_error_response
-from ..models import Plant
+from ..models import Plant, Specie
 from ..constants import *
 import json
 
@@ -35,7 +35,7 @@ class PlantItem(Resource):
         )
 
         body.add_control("self",
-            url_for("api.plantitem", name=saved_plant.name))
+            url_for("api.plantitem", name=saved_plant.name, specie_name=saved_plant.specie))
         body.add_control("profile", PLANT_ITEM_PROFILE)
         body.add_control_delete_plant(name=saved_plant.name)
         body.add_control_modify_plant(name=saved_plant.name)
@@ -105,10 +105,12 @@ class PlantItem(Resource):
 
 class PlantCollection(Resource):
 
-    def get(self, specie_name):
+    def get(self):
         '''
         Get PlantCollection Resource
-        /api/species/<specie_name>/plants/
+        /plants/
+        '''
+
         '''
         plants = Plant.query.all()
         if plants is None:
@@ -117,26 +119,34 @@ class PlantCollection(Resource):
             "Not found",
             "Database is empty"
             )
+        '''
 
         body = PlantBuilder(items=[])
-        for plant in plants:
-            plantItem = PlantBuilder(
-                name=plant.name,
-                specie=plant.specie,
-                acquired=plant.acquired,
-                location=plant.location
-            )
-            plantItem.add_control("self",
-                url_for("api.plantitem", name=plant.name))
-            plantItem.add_control("profile", PLANT_ITEM_PROFILE)
-            body["items"].append(plantItem)
+
+        for specie in Specie.query.all():
+            for plant in Plant.query.filter_by(specie_name=specie.specie).all():
+
+                plantItem = PlantBuilder(
+                    name=plant.name,
+                    specie_name=plant.specie_name,
+                    acquired=plant.acquired,
+                    location=plant.location
+                )
+
+                plantItem.add_control("self",
+                        url_for("api.plantcollection"))
+
+                plantItem.add_control("profile", PLANT_COLLECTION_PROFILE)
+                body["items"].append(plantItem)
+
         body.add_namespace("plandi", LINK_RELATIONS_URL)
         body.add_control_add_plant()
+
         return Response(json.dumps(body), 200, mimetype=MASON)
 
 
 
-    def post(self):
+    def post(self, specie_id):
         if not request.json:
             return create_error_response(
                 415,
@@ -162,12 +172,12 @@ class PlantCollection(Resource):
                 "No plant with name {} found".format(plant_name)
             )
 
-
         plant = Plant(
             name=request.json["name"],
-            specie=request.json["specie"],
+            specie_name=request.json["specie"],
             acquired=request.json["acquired"],
-            location=request.json["location"]
+            location=request.json["location"],
+            specie=saved_specie
         )
         try:
             db.session.add(plant)
@@ -182,4 +192,6 @@ class PlantCollection(Resource):
         return Response(
             status=201,
             mimetype=MASON,
-            headers={"Location": url_for("api.plantitem", name=request.json["name"])})
+            headers={"Location": url_for("api.plantitem",
+                name=request.json["name"],
+                specie_name=request.json["specie"])})

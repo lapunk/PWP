@@ -58,7 +58,7 @@ class Plant:
         input_specie = input("Give plant's specie: ")
         if not input_specie:
             return print(colored("Specie can't be null, try again\n", 'red'))
-        plant_data["specie"] = input_specie
+        plant_data["specie_name"] = input_specie
 
         input_acquired = input("Give plant's age (optional): ")
         plant_data["acquired"] = str(input_acquired)
@@ -66,7 +66,9 @@ class Plant:
         input_location = input("Give plant's location (optional): ")
         plant_data["location"] = str(input_location)
 
-        r = requests.post(API_URL + "/plants/", data=json.dumps(plant_data),
+        plant_path = "/species/" + input_specie + "/plants/"
+
+        r = requests.post(API_URL + plant_path, data=json.dumps(plant_data),
             headers={"Content-type": "application/json"})
 
         if r.status_code != 201:
