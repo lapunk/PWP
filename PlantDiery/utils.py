@@ -107,10 +107,10 @@ class PlantBuilder(MasonBuilder):
 
 ## DELETE
     # SPECIE
-    def add_control_delete_specie(self, plant_id):
+    def add_control_delete_specie(self, specie_id):
         self.add_control(
             "plandi:delete",
-            url_for("api.specie", plant_id=plant_id),
+            url_for("api.specie", specie_id=specie_id),
             method="DELETE",
             title="Delete given specie information"
         )
@@ -157,10 +157,10 @@ class PlantBuilder(MasonBuilder):
         )
 # PUT
     # SPECIE
-    def add_control_modify_specie(self, plant_id):
+    def add_control_modify_specie(self, specie_id):
         self.add_control(
             "edit",
-            url_for("api.specie", plant_id=plant_id),
+            url_for("api.specie", specie_id=specie_id),
             method="PUT",
             encoding="json",
             title="Edit given specie information",

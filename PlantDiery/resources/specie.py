@@ -5,7 +5,7 @@ from jsonschema import validate, ValidationError
 from .. import db
 from .. import api
 from ..utils import PlantBuilder, create_error_response
-from ..models import Specie
+from ..models import Specie, Plant
 from ..constants import *
 import json
 from .. import models
@@ -98,7 +98,7 @@ class SpecieItem(Resource):
         db.session.delete(saved_plant)
         db.session.commit()
 
-        return Response(status=204, mimetype=MASON)
+        return Response(status=204, mimetype=MASON)       
 
 class SpecieCollection(Resource):
     def get(self):

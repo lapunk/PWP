@@ -12,13 +12,13 @@ import json
 
 class PlantItem(Resource):
 
-    def get(self, name):
+    def get(self, specie_name, plant_name):
         '''
         GET single plant information
         name used as identifier
-        /api/plants/<name>/
+        /api/specie/<specie_name>/plants/<plant_name>/
         '''
-        saved_plant = Plant.query.filter_by(name=name).first()
+        saved_plant = Plant.query.filter_by(name=plant_name).first()
         if saved_plant is None:
             return create_error_response(
                 status_code=404,
@@ -27,7 +27,7 @@ class PlantItem(Resource):
             )
 
         body = PlantBuilder(
-            uuid=saved_plant.uuid,
+            id=saved_plant.id,
             name=saved_plant.name,
             specie=saved_plant.specie,
             acquired=saved_plant.acquired,
@@ -43,11 +43,11 @@ class PlantItem(Resource):
 
         return Response(response=json.dumps(body), status=200, mimetype=MASON)
 
-    def put(self, name):
+    def put(self, specie_name, plant_name):
         '''
         PUT (UPDATE()) single plant information
         name used as identifier
-        /api/plants/<name>/
+        /api/specie/<specie_name>/plants/<plant_name>/
         '''
 
         if not request.json:
@@ -65,7 +65,7 @@ class PlantItem(Resource):
                 str(e)
             )
 
-        saved_plant = Plant.query.filter_by(name=name).first()
+        saved_plant = Specie.query.filter_by(specie=specie_name).filter_by(name=plant_name).first()
 
         # Plant with given name does not exists in the database
         if saved_plant is None:
@@ -88,14 +88,14 @@ class PlantItem(Resource):
         '''
         DELETE single plant information
         name used as identifier
-        /api/plants/<name>/
+        /api/specie/<specie_name/plants/<plant_name>/
         '''
-        saved_plant = Plant.query.filter_by(name=name).first()
+        saved_plant = Plant.query.filter_by(name=plant_name).first()
         if saved_plant is None:
             return create_error_response(
                 404,
                 "Not found",
-                "No plant with name {} found".format(name)
+                "No plant with name {} found".format(plant_name)
             )
         db.session.delete(saved_plant)
         db.session.commit()
@@ -105,10 +105,10 @@ class PlantItem(Resource):
 
 class PlantCollection(Resource):
 
-    def get(self):
+    def get(self, specie_name):
         '''
         Get PlantCollection Resource
-        /api/species/
+        /api/species/<specie_name>/plants/
         '''
         plants = Plant.query.all()
         if plants is None:
@@ -152,6 +152,16 @@ class PlantCollection(Resource):
                 "Invalid json document",
                 str(e)
             )
+
+        specie_name = request.json["specie"]
+        saved_specie = Specie.query.filter_by(specie=specie_name).first()
+        if saved_specie is None:
+            return create_error_response(
+                404,
+                "Not found",
+                "No plant with name {} found".format(plant_name)
+            )
+
 
         plant = Plant(
             name=request.json["name"],

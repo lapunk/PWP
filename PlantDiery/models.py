@@ -11,11 +11,14 @@ class Plant(db.Model):
     location: String (optional)
     """
 
-    uuid = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), nullable=False, unique=True)
     specie = db.Column(db.String(128), nullable=False)
     acquired = db.Column(db.String(128), nullable=True)
     location = db.Column(db.String(128), nullable=True)
+
+    specie_id = db.Column(db.Integer, db.Foreignkey("specie_id"))
+    specie = db.relationship("Specie", db.back_populates("plant"))
 
     @staticmethod
     def get_schema():
@@ -61,6 +64,8 @@ class Specie(db.Model):
     humidity = db.Column(db.String(64), nullable=True)
     temperature = db.Column(db.String(64), nullable=True)
     soil = db.Column(db.String(64), nullable=True)
+
+    plant = db.relationship("Plant", back_populates"specie")
 
     @staticmethod
     def get_schema():
@@ -108,7 +113,7 @@ class Diary(db.Model):
     wellbeing:  String (optional)
     """
     __tablename__ = "diary"
-    uuid = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String, nullable=False)
     #date = db.Column(db.DateTime, nullable=False)
     date = db.Column(db.String, nullable=False)
