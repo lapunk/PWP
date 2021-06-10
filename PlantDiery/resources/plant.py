@@ -105,45 +105,42 @@ class PlantItem(Resource):
 
 class PlantCollection(Resource):
 
-    def get(self):
+    def get(self, specie_name):
         '''
         Get PlantCollection Resource
-        /plants/
-        '''
-
-        '''
-        plants = Plant.query.all()
-        if plants is None:
-            return create_error_response(
-            404,
-            "Not found",
-            "Database is empty"
-            )
+        /species/<specie_name>/plants/
         '''
 
         body = PlantBuilder(items=[])
 
-        for specie in Specie.query.all():
-            for plant in Plant.query.filter_by(specie_name=specie.specie).all():
+        plants = Plant.query.all()
+        if plants is None:
+            return create_error_response(
+                    404,
+                    "Not found",
+                    "Database is empty"
+                    )
 
-                plantItem = PlantBuilder(
+        body = PlantBuilder(items=[])
+
+        for plant in plants:
+            plantItem = PlantBuilder(
                     name=plant.name,
-                    specie_name=plant.specie_name,
+                    specie=plant.specie_name,
                     acquired=plant.acquired,
                     location=plant.location
-                )
+                    )
 
-                plantItem.add_control("self",
-                        url_for("api.plantcollection"))
+            plantItem.add_control("self",
+                    url_for("api.plantitem",
+                        name=plant.name,
+                        specie_name=plant.specie_name))
 
-                plantItem.add_control("profile", PLANT_COLLECTION_PROFILE)
-                body["items"].append(plantItem)
+            plantItem.add_control("profile", PLANT_ITEM_PROFILE)
 
         body.add_namespace("plandi", LINK_RELATIONS_URL)
         body.add_control_add_plant()
-
         return Response(json.dumps(body), 200, mimetype=MASON)
-
 
 
     def post(self, specie_id):
@@ -164,6 +161,9 @@ class PlantCollection(Resource):
             )
 
         specie_name = request.json["specie"]
+
+        print(specie_name)
+
         saved_specie = Specie.query.filter_by(specie=specie_name).first()
         if saved_specie is None:
             return create_error_response(

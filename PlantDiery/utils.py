@@ -84,6 +84,16 @@ class PlantBuilder(MasonBuilder):
             title="Add new specie information",
             schema=Specie.get_schema()
         )
+    ## PLANT ALL
+    def add_control_add_plants_all(self):
+        self.add_control(
+            "plandi:add-plant",
+            url_for("api.plantsall"),
+            method="POST",
+            encoding="json",
+            title="Add new plant information",
+            schema=Plant.get_schema()
+        )
     ## PLANT
     def add_control_add_plant(self):
         self.add_control(

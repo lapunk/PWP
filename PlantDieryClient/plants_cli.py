@@ -21,7 +21,26 @@ class Plant:
             print("Name: " + str(item["name"]))
             print(GREEN_LINE)
         print("\n")
+
+
+        specie_in = input("Give plant's specie: ")
+
+        resp = requests.get(API_URL + "/species/" + specie_in + "/plants/")
+        try:
+            body =resp.json()
+        except ValueError:
+            return print(colored("\nERROR\n", 'red'))
+
+        print(GREEN_LINE)
+
+        for item in body["items"]:
+            print("Name: " + str(item["name"]))
+            print("GREEN_LINE")
+        print("\n")
+
         return
+
+
 
     def get_single_plant(self):
         print(YELLOW_LINE)
