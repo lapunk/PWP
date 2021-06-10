@@ -17,8 +17,8 @@ class Plant(db.Model):
     acquired = db.Column(db.String(128), nullable=True)
     location = db.Column(db.String(128), nullable=True)
 
-    specie_id = db.Column(db.Integer, db.Foreignkey("specie_id"))
-    specie = db.relationship("Specie", db.back_populates("plant"))
+    specie_id = db.Column(db.Integer, db.ForeignKey("specie_id"))
+    specie = db.relationship("Specie", back_populates="plant")
 
     @staticmethod
     def get_schema():
@@ -65,7 +65,7 @@ class Specie(db.Model):
     temperature = db.Column(db.String(64), nullable=True)
     soil = db.Column(db.String(64), nullable=True)
 
-    plant = db.relationship("Plant", back_populates"specie")
+    plant = db.relationship("Plant", back_populates="specie")
 
     @staticmethod
     def get_schema():
