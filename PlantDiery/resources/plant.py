@@ -193,5 +193,5 @@ class PlantCollection(Resource):
             status=201,
             mimetype=MASON,
             headers={"Location": url_for("api.plantitem",
-                name=request.json["name"],
+                plant_name=request.json["name"],
                 specie_name=request.json["specie"])})

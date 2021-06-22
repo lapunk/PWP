@@ -5,15 +5,14 @@ from . import db
 class Plant(db.Model):
     """
     Plant table
-    name:     String(64) (unique) (identifier)
-    specie:   String
-    acquired: DateTime (optional)
-    location: String (optional)
+    name:        String(64) (unique) (identifier)
+    specie_name: String
+    acquired:    DateTime (optional)
+    location:    String (optional)
     """
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), nullable=False, unique=True)
-    #specie = db.Column(db.String(128), nullable=False)
     acquired = db.Column(db.String(128), nullable=True)
     location = db.Column(db.String(128), nullable=True)
     specie_name = db.Column(db.Integer, db.ForeignKey("specie.specie"))

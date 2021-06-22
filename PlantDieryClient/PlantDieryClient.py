@@ -28,15 +28,22 @@ def plants_menu():
         print("\n")
         if giv_input == "1":
             plant.add_plant()
+            break
         elif giv_input == "2":
             plant.get_all_plants()
+            break
         elif giv_input == "3":
             plant.get_single_plant()
+            break
         elif giv_input == "4":
             plant.modify_plant()
+            break
         elif giv_input == "5":
             plant.delete_plant()
+            break
         elif giv_input == "6":
+            break
+        elif giv_input is None:
             break
         else:
             print("Invalid option: {}".format(giv_input))
@@ -50,14 +57,19 @@ def plantsgen_menu():
         print("\n")
         if giv_input == "1":
             genPlant.add_specie()
+            break
         elif giv_input == "2":
             genPlant.get_all_species()
+            break
         elif giv_input == "3":
             genPlant.get_single_specie()
+            break
         elif giv_input == "4":
             genPlant.modify_specie()
+            break
         elif giv_input == "5":
             genPlant.delete_specie()
+            break
         elif giv_input == "6":
             break
         else:
@@ -72,10 +84,13 @@ def diary_menu():
         print("\n")
         if giv_input == "1":
             diary.add_entry()
+            break
         elif giv_input == "2":
             diary.get_all_entries()
+            break
         elif giv_input == "3":
             diary.delete_entry()
+            break
         elif giv_input == "4":
             break
         else:
