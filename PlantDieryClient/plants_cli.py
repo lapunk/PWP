@@ -77,7 +77,7 @@ class Plant:
         input_specie = input("Give plant's specie: ")
         if not input_specie:
             return print(colored("Specie can't be null, try again\n", 'red'))
-        plant_data["specie_name"] = input_specie
+        plant_data["specie"] = input_specie
 
         input_acquired = input("Give plant's age (optional): ")
         plant_data["acquired"] = str(input_acquired)

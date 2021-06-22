@@ -143,7 +143,7 @@ class PlantCollection(Resource):
         return Response(json.dumps(body), 200, mimetype=MASON)
 
 
-    def post(self, specie_id):
+    def post(self, specie_name):
         if not request.json:
             return create_error_response(
                 415,
@@ -160,11 +160,11 @@ class PlantCollection(Resource):
                 str(e)
             )
 
-        specie_name = request.json["specie"]
+        specie_name2 = request.json["specie"]
 
-        print(specie_name)
+        print(specie_name2)
 
-        saved_specie = Specie.query.filter_by(specie=specie_name).first()
+        saved_specie = Specie.query.filter_by(specie=specie_name2).first()
         if saved_specie is None:
             return create_error_response(
                 404,

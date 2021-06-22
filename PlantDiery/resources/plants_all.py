@@ -36,7 +36,6 @@ class PlantsAll(Resource):
                 body["items"].append(plantItem)
 
         body.add_namespace("plandi", LINK_RELATIONS_URL)
-        body.add_control_add_plants_all()
 
         return Response(json.dumps(body), 200, mimetype=MASON)
 
